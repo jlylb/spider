@@ -27,6 +27,7 @@ class ImageItem(scrapy.Item):
     title = scrapy.Field()
     pic_num = scrapy.Field()
     href = scrapy.Field()
+    detail = scrapy.Field()
 
 class ImageDetail(scrapy.Item):
     name = scrapy.Field()
