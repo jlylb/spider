@@ -1,20 +1,26 @@
 # -*- coding: utf-8 -*-
-
+"""
 # Scrapy settings for gbook project
 #
 # For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
+  Last Modified: 2016/1/22 14:39:00
 #
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+
+
+
+
+"""
+import os
 BOT_NAME = 'gbook'
 
 SPIDER_MODULES = ['gbook.spiders']
 NEWSPIDER_MODULE = 'gbook.spiders'
 
-
+IMAGES_STORE =os.path.join(os.path.dirname(os.getcwd()),'pic') #'d:/gbook/pic'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'gbook (+http://www.yourdomain.com)'
 
@@ -61,9 +67,10 @@ NEWSPIDER_MODULE = 'gbook.spiders'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'gbook.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+#    'gbook.pipelines.GbookPipeline': 300,
+    'scrapy.pipelines.images.ImagesPipeline': 1,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
