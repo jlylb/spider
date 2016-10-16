@@ -69,7 +69,9 @@ IMAGES_STORE =os.path.join(os.path.dirname(os.getcwd()),'pic') #'d:/gbook/pic'
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
 #    'gbook.pipelines.GbookPipeline': 300,
-    'scrapy.pipelines.images.ImagesPipeline': 1,
+    #'scrapy.pipelines.images.ImagesPipeline': 1,
+    #'gbook.pipelines.JsonWithEncodingPipeline':2,
+    'gbook.pipelines.DownloadImagesPipeline':1
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

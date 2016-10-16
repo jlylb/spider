@@ -14,6 +14,7 @@
 import scrapy
 from gbook.items import ImageItem,ImageDetail,Photo
 import urlparse
+import json
 #from scrapy.loader import ItemLoader
 #from scrapy.loader.processors import TakeFirst, MapCompos, Join
 
@@ -52,10 +53,24 @@ class Img2Spider(scrapy.Spider):
             yield scrapy.Request(urlparse.urljoin(self.http_header,detail),meta={"item": item},callback = self.parse_detail)
 
     def parse_detail(self, response):
-        item = ImageDetail()
-        item['name'] = response.css('.cartab-title h2>a::text').extract()
-        item['img_type'] = response.css('.uibox .uibox-title>a:first-child::text').extract()
-        item['img_type_url'] = response.css('.uibox-con li a>img::attr("src")').extract()
+        box = response.css('.uibox')
+        detail = []
+        for sel in box:
+            item = ImageDetail()
+            item['name'] = sel.xpath('.//div[contains(@class,"uibox-title")]/a[1]/text()').extract()
+            item['image_urls'] = sel.xpath('.//div[contains(@class,"uibox-con")]//li/a/img/@src').extract()
+            photos = sel.xpath('.//div[contains(@class,"uibox-con")]//li/a/@href').extract()
+            for pic in photos:
+                yield scrapy.Request(urlparse.urljoin(self.http_header,pic),meta={"item": item},callback = self.parse_photo)
+            detail.append(item)
+
         items = response.meta['item'];
-        items['detail']=item
-        return items
+        items['detail']=detail
+        yield items
+    def parse_photo(self,response):
+        items = response.meta['item'];
+        photo = response.css('.pic>#img::attr("src")').extract()
+        print photo
+        items['image_urls'].extend(photo)
+        yield items
+

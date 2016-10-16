@@ -31,8 +31,7 @@ class ImageItem(scrapy.Item):
 
 class ImageDetail(scrapy.Item):
     name = scrapy.Field()
-    img_type = scrapy.Field()
-    img_type_url = scrapy.Field()
+    image_urls= scrapy.Field()
 
 class Photo(scrapy.Item):
     photo = scrapy.Field()
