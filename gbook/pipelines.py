@@ -45,10 +45,15 @@ class JsonWithEncodingPipeline(object):
 
 class DownloadImagesPipeline(ImagesPipeline):
     def get_media_requests(self,item,info): #下载图片
-        for detail in item['detail']:
-            if detail['image_urls']:
-                for image_url in detail['image_urls']:
-                    yield Request(image_url,meta={'item':detail,'name':item['title']})
+        if item.get('detail',None):
+            for detail in item['detail']:
+                if detail['image_urls']:
+                    for image_url in detail['image_urls']:
+                        yield Request(image_url,meta={'item':detail,'name':item['title']})
+        if item.get('image_urls',None):
+            for image_url in item['image_urls']:
+                yield Request(image_url,meta={'item':item,'name':item['title']})
+
 
     def file_path(self,request,response=None,info=None):
         item=request.meta['item']
