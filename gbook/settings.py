@@ -71,7 +71,8 @@ ITEM_PIPELINES = {
 #    'gbook.pipelines.GbookPipeline': 300,
     #'scrapy.pipelines.images.ImagesPipeline': 1,
     #'gbook.pipelines.JsonWithEncodingPipeline':2,
-    'gbook.pipelines.DownloadImagesPipeline':1
+    #'gbook.pipelines.DownloadImagesPipeline':1
+    'gbook.pipelines.JsonWithEncodingPipeline':2
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -92,3 +93,6 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR='httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES=[]
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+DOWNLOAD_DELAY = 2
+COOKIES_ENABLED = False

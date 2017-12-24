@@ -35,3 +35,10 @@ class ImageDetail(scrapy.Item):
 
 class Photo(scrapy.Item):
     photo = scrapy.Field()
+
+class ShiciItem(scrapy.Item):
+    title = scrapy.Field()
+    category = scrapy.Field()
+    author = scrapy.Field()
+    content = scrapy.Field()
+    zhujie = scrapy.Field()
