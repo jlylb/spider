@@ -54,6 +54,7 @@ class Img2Spider(scrapy.Spider):
 
     def parse_detail(self, response):
         box = response.css('.uibox')
+        items = response.meta['item'];
         detail = []
         for sel in box:
             item = ImageDetail()
@@ -61,16 +62,15 @@ class Img2Spider(scrapy.Spider):
             item['image_urls'] = sel.xpath('.//div[contains(@class,"uibox-con")]//li/a/img/@src').extract()
             photos = sel.xpath('.//div[contains(@class,"uibox-con")]//li/a/@href').extract()
             for pic in photos:
-                yield scrapy.Request(urlparse.urljoin(self.http_header,pic),meta={"item": item},callback = self.parse_photo)
+                yield scrapy.Request(urlparse.urljoin(self.http_header,pic),meta={"name": item['name'],'title':items['title']},callback = self.parse_photo)
             detail.append(item)
 
-        items = response.meta['item'];
         items['detail']=detail
         yield items
     def parse_photo(self,response):
-        items = response.meta['item'];
-        photo = response.css('.pic>#img::attr("src")').extract()
-        print photo
-        items['image_urls'].extend(photo)
-        yield items
+        item = ImageDetail()
+        item['name']=response.meta['name']
+        item['title']=response.meta['title']
+        item['image_urls']=response.css('.pic>#img::attr("src")').extract()
+        yield item
 
